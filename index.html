@@ -1,118 +1,525 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>www.semita.sv - Control IoT</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
-        .card-custom { max-width: 480px; margin: 20px auto; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .display-distancia { font-size: 3rem; font-weight: bold; color: #0d6efd; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEMlTA.SV | Control IoT Real Madrid</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul: #142d60;
+      --azul-oscuro: #081a3a;
+      --dorado: #d4af37;
+      --fondo: #f0f3f9;
+    }
+
+    body {
+      background: var(--fondo);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      color: var(--azul-oscuro);
+    }
+
+    .header {
+      background: linear-gradient(120deg, #081a3a, #244c91);
+      padding: 28px 15px 75px;
+      text-align: center;
+      color: white;
+      border-bottom: 5px solid var(--dorado);
+    }
+
+    .header h1 {
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    .header p {
+      color: #dce5f8;
+      margin-top: 8px;
+    }
+
+    .escudo {
+      width: 105px;
+      height: 125px;
+      object-fit: contain;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 5px 10px #0005);
+    }
+
+    .panel {
+      max-width: 650px;
+      margin: -45px auto 40px;
+      background: white;
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 12px 35px #142d6020;
+      position: relative;
+    }
+
+    .panel-titulo {
+      font-weight: 800;
+      text-align: center;
+      color: var(--azul);
+    }
+
+    .conexion {
+      background: #edf8f1;
+      color: #16824b;
+      border-radius: 12px;
+      padding: 13px;
+      text-align: center;
+      font-weight: 700;
+      margin: 20px 0;
+    }
+
+    .conexion.error {
+      background: #fff0f0;
+      color: #c62828;
+    }
+
+    .distancia-card {
+      background: linear-gradient(145deg, #102b60, #071733);
+      border-radius: 18px;
+      color: white;
+      text-align: center;
+      padding: 28px 15px;
+      margin-bottom: 20px;
+    }
+
+    .distancia-card h5 {
+      letter-spacing: 2px;
+      color: #d5dff3;
+    }
+
+    .distancia {
+      font-size: clamp(3rem, 10vw, 4.5rem);
+      font-weight: 800;
+      color: #f0c85a;
+    }
+
+    .distancia small {
+      font-size: 1.3rem;
+      color: white;
+    }
+
+    .barra {
+      height: 12px;
+      background: #ffffff35;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 18px;
+    }
+
+    .barra-progreso {
+      width: 0%;
+      height: 100%;
+      background: #29d17d;
+      transition: width .4s ease;
+    }
+
+    .estado-card {
+      background: #f5f7fc;
+      border: 1px solid #e3e8f3;
+      border-radius: 14px;
+      padding: 17px;
+      text-align: center;
+      height: 100%;
+    }
+
+    .estado-card i {
+      color: var(--azul);
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .estado-card p {
+      margin: 5px 0;
+      font-size: 13px;
+      color: #667085;
+    }
+
+    .estado-card strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .seccion {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--azul);
+      margin: 26px 0 15px;
+    }
+
+    .btn-modo {
+      border: 2px solid var(--azul);
+      color: var(--azul);
+      background: white;
+      border-radius: 12px;
+      padding: 13px 10px;
+      font-weight: 700;
+      width: 100%;
+    }
+
+    .btn-modo.activo {
+      background: var(--azul);
+      color: white;
+    }
+
+    .btn-motor {
+      border: none;
+      border-radius: 13px;
+      padding: 17px 8px;
+      color: white;
+      font-weight: 800;
+      width: 100%;
+      transition: .2s;
+    }
+
+    .btn-motor:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .btn-motor:disabled,
+    .btn-modo:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    .izquierda, .derecha {
+      background: var(--azul);
+    }
+
+    .detener {
+      background: #d62839;
+    }
+
+    .footer {
+      text-align: center;
+      color: #7a8497;
+      font-size: 13px;
+      padding-bottom: 25px;
+    }
+
+    #mensaje {
+      min-height: 22px;
+      font-size: 13px;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .panel {
+        margin: -45px 12px 30px;
+        padding: 20px 15px;
+      }
+
+      .header h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <header class="text-center py-3 bg-light border-bottom mb-4">
-        <h2 class="fw-bold text-secondary mb-0">www.semita.sv</h2>
-        <small class="text-muted">Sistema IoT - Control de Giro con Sensor</small>
-    </header>
+  <header class="header">
+    <img
+      class="escudo"
+      src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg"
+      alt="Escudo Real Madrid"
+    >
 
-    <div class="container text-center">
-        <div class="card card-custom p-4 bg-white">
-            <!-- Dominio y Conexión -->
-            <h3 class="fw-bold text-secondary">www.semita.sv</h3>
-            <button id="btnConectar" class="btn btn-success my-2 w-100 fw-bold">🟢 Sistema Wi-Fi Conectado</button>
-            <hr>
+    <h1>WWW.SEMITA.SV</h1>
+    <p>Sistema inteligente de control IoT</p>
+  </header>
 
-            <!-- Escudo del FC Barcelona -->
-            <div class="my-2">
-                <img src="https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg" alt="FC Barcelona" width="80">
-            </div>
+  <main class="panel">
 
-            <!-- Telemetría en tiempo real -->
-            <div class="my-3">
-                <h5>DISTANCIA</h5>
-                <div id="valDistancia" class="display-distancia">-- cm</div>
-                <p class="mb-0">Modo: <span id="txtModo" class="badge bg-success">AUTOMÁTICO</span></p>
-                <p>Estado Motor: <span id="txtMotor" class="badge bg-dark">DETENIDO</span></p>
-            </div>
+    <h3 class="panel-titulo">
+      <i class="fa-solid fa-microchip"></i>
+      PANEL DE CONTROL
+    </h3>
 
-            <!-- Conmutador de Modos -->
-            <div class="d-flex justify-content-center gap-2 mb-3">
-                <button onclick="cambiarModo('AUTOMATICO')" class="btn btn-outline-primary btn-sm">Modo Automático</button>
-                <button onclick="cambiarModo('MANUAL')" class="btn btn-outline-warning btn-sm">Modo Manual</button>
-            </div>
-
-            <!-- Botones de Control Manual -->
-            <div class="d-grid gap-2">
-                <button onclick="enviarComandoMotor('IZQUIERDA')" class="btn btn-primary">IZQUIERDA</button>
-                <button onclick="enviarComandoMotor('DERECHA')" class="btn btn-primary">DERECHA</button>
-                <button onclick="enviarComandoMotor('DETENER')" class="btn btn-danger">DETENER</button>
-            </div>
-        </div>
+    <div id="conexion" class="conexion">
+      <i class="fa-solid fa-wifi"></i>
+      <span id="txtConexion">Verificando conexión...</span>
     </div>
 
-    <script>
-        const apiUrl = "https://6ad813a395e98f36aef2ea16.mockapi.io/sistema/1";
+    <div class="distancia-card">
+      <h5>
+        <i class="fa-solid fa-ruler-horizontal"></i>
+        DISTANCIA DEL SENSOR
+      </h5>
 
-        async function obtenerDatos() {
-            try {
-                let response = await fetch(apiUrl);
-                let data = await response.json();
-                
-                document.getElementById('valDistancia').innerText = (data.distancia || "--") + " cm";
-                if(data.motor) {
-                    document.getElementById('txtMotor').innerText = data.motor;
-                }
-                if(data.modo) {
-                    let badgeModo = document.getElementById('txtModo');
-                    badgeModo.innerText = data.modo;
-                    badgeModo.className = data.modo === 'MANUAL' ? 'badge bg-warning text-dark' : 'badge bg-success';
-                }
-            } catch (error) {
-                console.error("Error al leer MockAPI:", error);
-            }
+      <div class="distancia">
+        <span id="valDistancia">--</span>
+        <small>cm</small>
+      </div>
+
+      <div class="barra">
+        <div id="barraProgreso" class="barra-progreso"></div>
+      </div>
+
+      <small id="txtSensor" class="d-block mt-3">
+        Esperando lectura del sensor
+      </small>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-6">
+        <div class="estado-card">
+          <i class="fa-solid fa-gears"></i>
+          <p>MODO ACTUAL</p>
+          <strong id="txtModo">AUTOMATICO</strong>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="estado-card">
+          <i class="fa-solid fa-rotate"></i>
+          <p>ESTADO DEL MOTOR</p>
+          <strong id="txtMotor">DETENIDO</strong>
+        </div>
+      </div>
+    </div>
+
+    <h5 class="seccion">
+      <i class="fa-solid fa-sliders"></i>
+      Seleccionar modo
+    </h5>
+
+    <div class="row g-2">
+      <div class="col-6">
+        <button id="btnAuto" class="btn-modo activo"
+          onclick="cambiarModo('AUTOMATICO')">
+          <i class="fa-solid fa-robot"></i>
+          Automático
+        </button>
+      </div>
+
+      <div class="col-6">
+        <button id="btnManual" class="btn-modo"
+          onclick="cambiarModo('MANUAL')">
+          <i class="fa-solid fa-hand"></i>
+          Manual
+        </button>
+      </div>
+    </div>
+
+    <h5 class="seccion">
+      <i class="fa-solid fa-gamepad"></i>
+      Control del motor
+    </h5>
+
+    <div class="row g-2">
+      <div class="col-6">
+        <button class="btn-motor izquierda"
+          onclick="enviarComandoMotor('IZQUIERDA')">
+          <i class="fa-solid fa-arrow-rotate-left"></i>
+          IZQUIERDA
+        </button>
+      </div>
+
+      <div class="col-6">
+        <button class="btn-motor derecha"
+          onclick="enviarComandoMotor('DERECHA')">
+          <i class="fa-solid fa-arrow-rotate-right"></i>
+          DERECHA
+        </button>
+      </div>
+
+      <div class="col-12">
+        <button class="btn-motor detener"
+          onclick="enviarComandoMotor('DETENER')">
+          <i class="fa-solid fa-stop"></i>
+          DETENER MOTOR
+        </button>
+      </div>
+    </div>
+
+    <p id="mensaje" role="status" aria-live="polite"></p>
+
+  </main>
+
+  <footer class="footer">
+    <p>WWW.SEMITA.SV | Sistema de control IoT</p>
+    <p>Diseño inspirado en Real Madrid CF</p>
+  </footer>
+
+  <script>
+    const apiUrl =
+      "https://6ad813a395e98f36aef2ea16.mockapi.io/sistema/1";
+
+    let peticionEnCurso = false;
+    let ultimaEscritura = 0;
+
+    const $ = id => document.getElementById(id);
+
+    function mostrarMensaje(texto, error = false) {
+      $("mensaje").textContent = texto;
+      $("mensaje").style.color =
+        error ? "#c62828" : "#16824b";
+    }
+
+    function actualizarInterfaz(data) {
+      const distancia = Number(data.distancia);
+
+      if (
+        data.distancia !== undefined &&
+        data.distancia !== null &&
+        data.distancia !== "" &&
+        Number.isFinite(distancia)
+      ) {
+        $("valDistancia").textContent = distancia;
+
+        // Escala visual de 0 a 100 cm
+        const porcentaje = Math.min(
+          100,
+          Math.max(0, distancia)
+        );
+
+        $("barraProgreso").style.width = porcentaje + "%";
+
+        if (distancia < 10) {
+          $("barraProgreso").style.background = "#ff5252";
+          $("txtSensor").textContent = "Objeto muy cercano";
+        } else if (distancia < 30) {
+          $("barraProgreso").style.background = "#f0c85a";
+          $("txtSensor").textContent = "Objeto cercano";
+        } else {
+          $("barraProgreso").style.background = "#29d17d";
+          $("txtSensor").textContent = "Distancia segura";
         }
+      }
 
-        async function cambiarModo(nuevoModo) {
-            try {
-                let response = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ modo: nuevoModo })
-                });
-                if (response.ok) {
-                    document.getElementById('txtModo').innerText = nuevoModo;
-                    document.getElementById('txtModo').className = nuevoModo === 'MANUAL' ? 'badge bg-warning text-dark' : 'badge bg-success';
-                    console.log("Modo cambiado a:", nuevoModo);
-                }
-            } catch (error) {
-                console.error("Error al cambiar modo:", error);
-            }
-        }
+      if (data.motor !== undefined) {
+        $("txtMotor").textContent = data.motor;
+      }
 
-        async function enviarComandoMotor(accion) {
-            try {
-                // Al presionar un botón manual, asegurarnos de poner el sistema en MANUAL
-                let response = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ motor: accion, modo: "MANUAL" })
-                });
-                if (response.ok) {
-                    document.getElementById('txtMotor').innerText = accion;
-                    document.getElementById('txtModo').innerText = "MANUAL";
-                    document.getElementById('txtModo').className = "badge bg-warning text-dark";
-                    console.log("Comando motor enviado:", accion);
-                }
-            } catch (error) {
-                console.error("Error al enviar comando del motor:", error);
-            }
-        }
+      if (data.modo !== undefined) {
+        $("txtModo").textContent = data.modo;
 
-        // Consultar la API cada 2 segundos para refrescar la pantalla web
-        setInterval(obtenerDatos, 2000);
-    </script>
+        const manual = data.modo === "MANUAL";
+
+        $("btnManual").classList.toggle("activo", manual);
+        $("btnAuto").classList.toggle("activo", !manual);
+      }
+    }
+
+    function actualizarConexion(conectado) {
+      const conexion = $("conexion");
+
+      conexion.classList.toggle("error", !conectado);
+
+      $("txtConexion").textContent = conectado
+        ? "Conectado a MockAPI"
+        : "Sin conexión con MockAPI";
+    }
+
+    async function solicitarAPI(opciones) {
+      const respuesta = await fetch(apiUrl, {
+        ...opciones,
+        cache: "no-store"
+      });
+
+      if (!respuesta.ok) {
+        throw new Error("Error HTTP: " + respuesta.status);
+      }
+
+      return respuesta.json();
+    }
+
+    async function obtenerDatos() {
+      if (peticionEnCurso) return;
+
+      // Evita que una lectura antigua sobrescriba
+      // inmediatamente un comando recién enviado.
+      if (Date.now() - ultimaEscritura < 1500) return;
+
+      peticionEnCurso = true;
+
+      try {
+        const datos = await solicitarAPI();
+        actualizarInterfaz(datos);
+        actualizarConexion(true);
+      } catch (error) {
+        actualizarConexion(false);
+        console.error("Error al leer MockAPI:", error);
+      } finally {
+        peticionEnCurso = false;
+      }
+    }
+
+    async function enviarActualizacion(datos) {
+      if (peticionEnCurso) {
+        mostrarMensaje(
+          "Espera a que termine la operación actual.",
+          true
+        );
+        return;
+      }
+
+      peticionEnCurso = true;
+
+      const botones = document.querySelectorAll(
+        ".btn-modo, .btn-motor"
+      );
+
+      botones.forEach(boton => boton.disabled = true);
+
+      try {
+        const resultado = await solicitarAPI({
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(datos)
+        });
+
+        ultimaEscritura = Date.now();
+        actualizarInterfaz(resultado);
+        actualizarConexion(true);
+        mostrarMensaje("Comando enviado correctamente");
+      } catch (error) {
+        actualizarConexion(false);
+        mostrarMensaje(
+          "No se pudo enviar el comando: " + error.message,
+          true
+        );
+        console.error(error);
+      } finally {
+        peticionEnCurso = false;
+        botones.forEach(boton => boton.disabled = false);
+      }
+    }
+
+    async function cambiarModo(nuevoModo) {
+      await enviarActualizacion({
+        modo: nuevoModo,
+        ...(nuevoModo === "AUTOMATICO"
+          ? { motor: "DETENER" }
+          : {})
+      });
+    }
+
+    async function enviarComandoMotor(accion) {
+      await enviarActualizacion({
+        motor: accion,
+        modo: "MANUAL"
+      });
+    }
+
+    obtenerDatos();
+
+    // Actualización automática cada 2 segundos
+    setInterval(obtenerDatos, 2000);
+  </script>
+
 </body>
 </html>
