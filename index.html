@@ -10,251 +10,76 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
   <style>
-    :root {
-      --azul: #142d60;
-      --azul-oscuro: #081a3a;
-      --dorado: #d4af37;
-      --fondo: #f0f3f9;
-    }
 
-    body {
-      background: var(--fondo);
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      color: var(--azul-oscuro);
-    }
+/* Reino Merengue: estilo medieval */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=MedievalSharp&display=swap');
+:root {--azul:#192c50;--azul-oscuro:#101522;--dorado:#cba75b;--fondo:#171b23;}
+*{box-sizing:border-box}
+body{margin:0;color:#f3e8d1;font-family:Georgia,serif;background:radial-gradient(ellipse at 50% 0%,#374354 0%,#171b23 60%,#0d1016 100%);min-height:100vh;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:-2;opacity:.13;background:repeating-linear-gradient(0deg,transparent 0 53px,#b3a384 54px 56px),repeating-linear-gradient(90deg,transparent 0 115px,#b3a384 116px 118px);pointer-events:none}
+body::after{content:"";position:fixed;inset:0;z-index:-1;background:url('https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg') center 54% / min(65vw,650px) no-repeat;opacity:.085;pointer-events:none}
+.header{position:relative;text-align:center;padding:45px 16px 85px;background:linear-gradient(180deg,#0b1222ee,#233149d9);border-bottom:5px ridge var(--dorado);box-shadow:0 10px 40px #0008}
+.header::before,.header::after{content:'⚜';position:absolute;top:36px;color:var(--dorado);font-size:40px}.header::before{left:10%}.header::after{right:10%}
+.header h1,.panel-titulo,.seccion,.equipo h2{font-family:Cinzel,Georgia,serif;letter-spacing:1px}
+.header h1{font-weight:900;font-size:clamp(25px,5vw,44px);color:#f6df9c;text-shadow:0 3px 5px #000}
+.header p{color:#e4d3b1;margin:10px 0 0;letter-spacing:2px}
+.escudo{width:110px;height:135px;object-fit:contain;margin-bottom:12px;filter:drop-shadow(0 5px 12px #000)}
+.panel{max-width:680px;margin:-45px auto 48px;padding:30px;background:linear-gradient(135deg,#2c3039f5,#151a25f8);border:3px double var(--dorado);border-radius:8px;box-shadow:0 20px 55px #000b, inset 0 0 0 5px #ffffff08;position:relative}
+.panel::before,.panel::after{content:'✥';position:absolute;top:7px;color:var(--dorado);font-size:24px}.panel::before{left:12px}.panel::after{right:12px}
+.panel-titulo{text-align:center;color:#f5d68e;font-size:24px;font-weight:800;margin:10px 0 24px}
+.conexion{background:#18372c;border:1px solid #73a88b;color:#a8e6b9;text-align:center;padding:13px;margin:16px 0 20px;border-radius:4px;font-weight:bold}
+.conexion.error{background:#492329;color:#ffb4b4;border-color:#a95e62}
+.distancia-card{background:linear-gradient(140deg,#101a2c,#27334b);border:2px solid #a8894c;text-align:center;padding:28px 15px;margin-bottom:20px;box-shadow:inset 0 0 35px #0007}
+.distancia-card h5{font-family:Cinzel,serif;color:#e5d3ab;font-size:16px;letter-spacing:1px}
+.distancia{font-family:Cinzel,serif;font-size:clamp(3rem,10vw,4.5rem);font-weight:900;color:#f6d68a;text-shadow:0 2px 10px #000}.distancia small{font-size:1.2rem;color:#fff}
+.barra{height:14px;border:1px solid #c4a46b;background:#0c111c;overflow:hidden;margin-top:15px}.barra-progreso{height:100%;width:0%;background:#29d17d;transition:width .4s}
+.estado-card{background:#252c37;border:1px solid #8d754a;text-align:center;padding:18px 8px;height:100%;min-height:122px}.estado-card i{color:#e3bf75;font-size:25px}.estado-card p{font-size:12px;color:#c9bda7;margin:8px 0}.estado-card strong{font-family:Cinzel,serif;color:#fff2cf;font-size:14px;overflow-wrap:anywhere}
+.seccion{font-weight:700;color:#e9ca83;margin:28px 0 15px;font-size:17px}
+.btn-modo,.btn-motor{width:100%;padding:15px 9px;font-weight:700;transition:transform .2s,filter .2s;border-radius:3px}
+.btn-modo{border:2px solid #c5a365;background:#252c37;color:#e6d0a2}.btn-modo.activo{background:linear-gradient(120deg,#9e7936,#d8b86f);color:#171923}
+.btn-motor{border:1px solid #d2b677;color:#fff6dc;background:linear-gradient(140deg,#344a6c,#172640)}.btn-motor.detener{background:linear-gradient(140deg,#963c40,#551b25)}
+.btn-motor:hover,.btn-modo:hover{transform:translateY(-2px);filter:brightness(1.15)}.btn-motor:disabled,.btn-modo:disabled{opacity:.55;cursor:wait}
+#mensaje{text-align:center;min-height:22px;margin-top:15px;font-size:14px}
+.equipo{max-width:1000px;margin:0 auto 40px;padding:0 16px;text-align:center}.equipo h2{color:#ebcf90;margin-bottom:25px;font-size:26px}.equipo-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.integrante{background:#232b38ed;border:2px solid #aa8950;padding:20px 9px;box-shadow:0 8px 20px #0006}.foto-integrante{width:110px;height:110px;max-width:100%;border-radius:50%;object-fit:cover;border:3px solid #d5b570;background:#1c2430}.integrante h3{font-family:Cinzel,serif;font-size:14px;color:#f2dcaa;margin:14px 0 6px;overflow-wrap:anywhere}.integrante p{font-size:12px;color:#c5b89d;margin:0}
+.footer{text-align:center;color:#c7b68e;font-size:13px;padding:0 15px 25px}
+@media(max-width:750px){.equipo-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.panel{margin:-45px 12px 30px;padding:22px 15px}.header::before{left:3%}.header::after{right:3%}}
+@media(max-width:450px){.equipo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.header::before,.header::after{font-size:23px}}
 
-    .header {
-      background: linear-gradient(120deg, #081a3a, #244c91);
-      padding: 28px 15px 75px;
-      text-align: center;
-      color: white;
-      border-bottom: 5px solid var(--dorado);
-    }
-
-    .header h1 {
-      font-weight: 800;
-      letter-spacing: 1px;
-      margin: 0;
-    }
-
-    .header p {
-      color: #dce5f8;
-      margin-top: 8px;
-    }
-
-    .escudo {
-      width: 105px;
-      height: 125px;
-      object-fit: contain;
-      margin-bottom: 12px;
-      filter: drop-shadow(0 5px 10px #0005);
-    }
-
-    .panel {
-      max-width: 650px;
-      margin: -45px auto 40px;
-      background: white;
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: 0 12px 35px #142d6020;
-      position: relative;
-    }
-
-    .panel-titulo {
-      font-weight: 800;
-      text-align: center;
-      color: var(--azul);
-    }
-
-    .conexion {
-      background: #edf8f1;
-      color: #16824b;
-      border-radius: 12px;
-      padding: 13px;
-      text-align: center;
-      font-weight: 700;
-      margin: 20px 0;
-    }
-
-    .conexion.error {
-      background: #fff0f0;
-      color: #c62828;
-    }
-
-    .distancia-card {
-      background: linear-gradient(145deg, #102b60, #071733);
-      border-radius: 18px;
-      color: white;
-      text-align: center;
-      padding: 28px 15px;
-      margin-bottom: 20px;
-    }
-
-    .distancia-card h5 {
-      letter-spacing: 2px;
-      color: #d5dff3;
-    }
-
-    .distancia {
-      font-size: clamp(3rem, 10vw, 4.5rem);
-      font-weight: 800;
-      color: #f0c85a;
-    }
-
-    .distancia small {
-      font-size: 1.3rem;
-      color: white;
-    }
-
-    .barra {
-      height: 12px;
-      background: #ffffff35;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 18px;
-    }
-
-    .barra-progreso {
-      width: 0%;
-      height: 100%;
-      background: #29d17d;
-      transition: width .4s ease;
-    }
-
-    .estado-card {
-      background: #f5f7fc;
-      border: 1px solid #e3e8f3;
-      border-radius: 14px;
-      padding: 17px;
-      text-align: center;
-      height: 100%;
-    }
-
-    .estado-card i {
-      color: var(--azul);
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-
-    .estado-card p {
-      margin: 5px 0;
-      font-size: 13px;
-      color: #667085;
-    }
-
-    .estado-card strong {
-      display: block;
-      font-size: 15px;
-    }
-
-    .seccion {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--azul);
-      margin: 26px 0 15px;
-    }
-
-    .btn-modo {
-      border: 2px solid var(--azul);
-      color: var(--azul);
-      background: white;
-      border-radius: 12px;
-      padding: 13px 10px;
-      font-weight: 700;
-      width: 100%;
-    }
-
-    .btn-modo.activo {
-      background: var(--azul);
-      color: white;
-    }
-
-    .btn-motor {
-      border: none;
-      border-radius: 13px;
-      padding: 17px 8px;
-      color: white;
-      font-weight: 800;
-      width: 100%;
-      transition: .2s;
-    }
-
-    .btn-motor:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.1);
-    }
-
-    .btn-motor:disabled,
-    .btn-modo:disabled {
-      opacity: .55;
-      cursor: wait;
-    }
-
-    .izquierda, .derecha {
-      background: var(--azul);
-    }
-
-    .detener {
-      background: #d62839;
-    }
-
-    .footer {
-      text-align: center;
-      color: #7a8497;
-      font-size: 13px;
-      padding-bottom: 25px;
-    }
-
-    #mensaje {
-      min-height: 22px;
-      font-size: 13px;
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    @media (max-width: 600px) {
-      .panel {
-        margin: -45px 12px 30px;
-        padding: 20px 15px;
-      }
-
-      .header h1 {
-        font-size: 25px;
-      }
-    }
-
-    /* Fotografías de los cinco integrantes */
-    .equipo { max-width: 950px; margin: 0 auto 38px; padding: 0 16px; text-align: center; }
-    .equipo h2 { color: var(--azul); font-weight: 800; margin-bottom: 22px; }
-    .equipo-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
-    .integrante { background: white; border-radius: 18px; padding: 20px 10px; box-shadow: 0 8px 24px #142d6018; border-bottom: 3px solid var(--dorado); }
-    .foto-integrante { width: 112px; height: 112px; max-width: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--dorado); background: #edf1f8; }
-    .integrante h3 { font-size: 15px; font-weight: 700; margin: 14px 0 4px; overflow-wrap: anywhere; }
-    .integrante p { font-size: 12px; color: #7a8497; margin: 0; }
-    @media (max-width: 750px) { .equipo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media (max-width: 450px) { .equipo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  </style>
+/* Versión clara: castillo medieval y escudo al pie */
+:root{--azul:#526b87;--azul-oscuro:#263c51;--dorado:#b68b46;--fondo:#f5efe2}
+body{color:#304257;background:#e5e9e0;font-family:Georgia,serif}
+body::before{background:linear-gradient(180deg,#f6f0e3a8,#f9f5eb91);opacity:1;z-index:-1}
+body::after{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAwIDEwMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIHNsaWNlIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InNreSIgeDI9IjAiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjYTlkNmViIi8+PHN0b3Agb2Zmc2V0PSIuNjUiIHN0b3AtY29sb3I9IiNmNGRmYjciLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNiM2M2YTEiLz48L2xpbmVhckdyYWRpZW50PjxwYXR0ZXJuIGlkPSJzdG9uZSIgd2lkdGg9IjgwIiBoZWlnaHQ9IjQyIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMCAwSDgwTTAgMjFIODBNNDAgMFYyMU0wIDIxVjQyIiBmaWxsPSJub25lIiBzdHJva2U9IiM2Zjc1NmMiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iLjI4Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSIxMDAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSIxMjYwIiBjeT0iMTc1IiByPSI5NSIgZmlsbD0iI2ZmZjVkMSIgb3BhY2l0eT0iLjc1Ii8+PHBhdGggZD0iTTAgNjUwUTI1MCA0MTAgNTAwIDYyMFQxMDUwIDU4MFQxNjAwIDU5MFYxMDAwSDAiIGZpbGw9IiM5MWE5OWEiLz48cGF0aCBkPSJNMCA3NjBRMzIwIDU3MCA2MDAgNzM1VDEyMDAgNzEwVDE2MDAgNzAwVjEwMDBIMCIgZmlsbD0iIzcyOGQ3YyIvPjxnIGZpbGw9IiNiM2E2OGQiIHN0cm9rZT0iIzY5Njg1ZSIgc3Ryb2tlLXdpZHRoPSI5Ij48cmVjdCB4PSIzNzUiIHk9IjQwMCIgd2lkdGg9Ijg1MCIgaGVpZ2h0PSI0ODAiLz48cmVjdCB4PSIyNjUiIHk9IjMwMCIgd2lkdGg9IjIzMCIgaGVpZ2h0PSI1ODAiLz48cmVjdCB4PSIxMTA1IiB5PSIzMDAiIHdpZHRoPSIyMzAiIGhlaWdodD0iNTgwIi8+PHJlY3QgeD0iNjM1IiB5PSIyMzUiIHdpZHRoPSIzMzAiIGhlaWdodD0iNjQ1Ii8+PC9nPjxnIGZpbGw9IiM4ZDhhN2EiPjxwYXRoIGQ9Ik0yNTAgMzAwdi02NWg1MnY2NWg0NnYtNjVoNTN2NjVoNDh2LTY1aDUydjY1aDEwdjQ4SDI1MHpNMTA5MCAzMDB2LTY1aDUydjY1aDQ2di02NWg1M3Y2NWg0OHYtNjVoNTJ2NjVoMTB2NDhoLTI2MXpNNjE1IDIzNXYtNjhoNTR2NjhoNjB2LTY4aDU0djY4aDYwdi02OGg1NHY2OGg4NXY0Nkg2MTV6TTM2NSA0MDB2LTUwaDY1djUwaDY1di01MGg2NXY1MGg2NXYtNTBoNjV2NTBoNjV2LTUwaDY1djUwaDY1di01MGg2NXY1MGg2NXYtNTBoNjV2NTBoNjV2LTUwaDY1djUwaDY1di01MGg2NXY1MGgzNXY0NEgzNjV6Ii8+PC9nPjxnIGZpbGw9InVybCgjc3RvbmUpIj48cmVjdCB4PSIyNjUiIHk9IjMwMCIgd2lkdGg9IjIzMCIgaGVpZ2h0PSI1ODAiLz48cmVjdCB4PSIxMTA1IiB5PSIzMDAiIHdpZHRoPSIyMzAiIGhlaWdodD0iNTgwIi8+PHJlY3QgeD0iNjM1IiB5PSIyMzUiIHdpZHRoPSIzMzAiIGhlaWdodD0iNjQ1Ii8+PHJlY3QgeD0iMzc1IiB5PSI0MDAiIHdpZHRoPSI4NTAiIGhlaWdodD0iNDgwIi8+PC9nPjxnIGZpbGw9IiMzOTRhNGQiPjxwYXRoIGQ9Ik0zNDUgNDYwYTM1IDM1IDAgMCAxIDcwIDB2MTAwaC03MHpNMTE4NSA0NjBhMzUgMzUgMCAwIDEgNzAgMHYxMDBoLTcwek03NDAgMzU1YTYwIDYwIDAgMCAxIDEyMCAwdjEzNUg3NDB6TTcwMCA4ODBWNzIwYTEwMCAxMDAgMCAwIDEgMjAwIDB2MTYweiIvPjwvZz48cGF0aCBkPSJNMCA4ODBRMzAwIDgyMCA2MDAgODg1VDE2MDAgODU1VjEwMDBIMCIgZmlsbD0iIzYwN2U2NSIgb3BhY2l0eT0iLjg1Ii8+PC9zdmc+");background-size:cover;background-position:center center;opacity:1;z-index:-2}
+.header{background:linear-gradient(180deg,#f7f1e9ed,#e5dcc6df);border-bottom:5px ridge #b99351;box-shadow:0 8px 24px #4b4c3b30;padding:34px 16px 80px}
+.header h1{color:#65512f;text-shadow:none}.header p{color:#665d4e}
+.panel{background:linear-gradient(140deg,#fffaf1f5,#f2e9d9f5);box-shadow:0 18px 50px #343b3850;border-color:#bd9a62}
+.panel-titulo,.seccion,.equipo h2{color:#796034}
+.conexion{background:#e3f1e3;color:#326c49;border-color:#8cb69a}.conexion.error{background:#fae4e2;color:#9b3434}
+.distancia-card{background:linear-gradient(140deg,#e5edf1,#d2e1e7);border-color:#c5a26c;color:#30465c;box-shadow:none}
+.distancia-card h5{color:#4e6270}.distancia{color:#946a2d;text-shadow:none}.distancia small{color:#30465c}
+.barra{background:#f8f4ec}.estado-card{background:#f6f3e9;border-color:#cfba91}.estado-card i{color:#94713b}.estado-card p{color:#6c716f}.estado-card strong{color:#30465c}
+.btn-modo{background:#fff9ee;color:#5e553f;border-color:#bba16f}.btn-modo.activo{background:linear-gradient(120deg,#e2c991,#f6e7c3);color:#463a27}
+.btn-motor{background:linear-gradient(140deg,#6d8ba5,#456987);color:#fff}.btn-motor.detener{background:linear-gradient(140deg,#cb7371,#a6474e)}
+.integrante{background:#fff9f0f2;border-color:#c7a56e;box-shadow:0 8px 22px #3c413633}.integrante h3{color:#5b4b36}.integrante p{color:#77716a}
+.footer{background:#f7f0e5df;color:#66563e;padding:24px 15px 30px;border-top:3px solid #c3a16c}.footer .escudo{display:block;margin:0 auto 12px;width:100px;height:120px}
+</style>
 </head>
 
 <body>
 
   <header class="header">
-    <img
-      class="escudo"
-      src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg"
-      alt="Escudo Real Madrid"
-    >
 
     <h1>WWW.SEMITA.SV</h1>
-    <p>Sistema inteligente de control IoT</p>
+    <p>⚔️ Fortaleza del Control IoT ⚔️</p>
   </header>
 
   <main class="panel">
 
     <h3 class="panel-titulo">
       <i class="fa-solid fa-microchip"></i>
-      PANEL DE CONTROL
+      SALA DE MANDO REAL
     </h3>
 
     <div id="conexion" class="conexion">
@@ -302,7 +127,7 @@
 
     <h5 class="seccion">
       <i class="fa-solid fa-sliders"></i>
-      Seleccionar modo
+      Elegir estrategia
     </h5>
 
     <div class="row g-2">
@@ -325,7 +150,7 @@
 
     <h5 class="seccion">
       <i class="fa-solid fa-gamepad"></i>
-      Control del motor
+      Órdenes del motor
     </h5>
 
     <div class="row g-2">
@@ -361,7 +186,7 @@
 
   
   <section class="equipo" aria-labelledby="titulo-equipo">
-    <h2 id="titulo-equipo"><i class="fa-solid fa-users"></i> Integrantes del equipo</h2>
+    <h2 id="titulo-equipo"><i class="fa-solid fa-users"></i> Caballeros de la orden</h2>
     <div class="equipo-grid">
       <article class="integrante"><img class="foto-integrante" src="fotos/cami.jpeg" alt="Foto del integrante 1" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+1'"><h3>Integrante 1</h3><p>Equipo de desarrollo</p></article>
       <article class="integrante"><img class="foto-integrante" src="fotos/dany.jpeg" alt="Foto del integrante 2" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+2'"><h3>Integrante 2</h3><p>Equipo de desarrollo</p></article>
@@ -372,8 +197,14 @@
   </section>
 
   <footer class="footer">
+    <img
+      class="escudo"
+      src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg"
+      alt="Escudo Real Madrid"
+    >
+
     <p>WWW.SEMITA.SV | Sistema de control IoT</p>
-    <p>Diseño inspirado en Real Madrid CF</p>
+    <p>El reino merengue · Real Madrid CF</p>
   </footer>
 
   <script>
