@@ -223,6 +223,17 @@
         font-size: 25px;
       }
     }
+
+    /* Fotografías de los cinco integrantes */
+    .equipo { max-width: 950px; margin: 0 auto 38px; padding: 0 16px; text-align: center; }
+    .equipo h2 { color: var(--azul); font-weight: 800; margin-bottom: 22px; }
+    .equipo-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+    .integrante { background: white; border-radius: 18px; padding: 20px 10px; box-shadow: 0 8px 24px #142d6018; border-bottom: 3px solid var(--dorado); }
+    .foto-integrante { width: 112px; height: 112px; max-width: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--dorado); background: #edf1f8; }
+    .integrante h3 { font-size: 15px; font-weight: 700; margin: 14px 0 4px; overflow-wrap: anywhere; }
+    .integrante p { font-size: 12px; color: #7a8497; margin: 0; }
+    @media (max-width: 750px) { .equipo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 450px) { .equipo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   </style>
 </head>
 
@@ -346,6 +357,19 @@
     <p id="mensaje" role="status" aria-live="polite"></p>
 
   </main>
+
+
+  
+  <section class="equipo" aria-labelledby="titulo-equipo">
+    <h2 id="titulo-equipo"><i class="fa-solid fa-users"></i> Integrantes del equipo</h2>
+    <div class="equipo-grid">
+      <article class="integrante"><img class="foto-integrante" src="fotos/cami.jpeg" alt="Foto del integrante 1" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+1'"><h3>Integrante 1</h3><p>Equipo de desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/dany.jpeg" alt="Foto del integrante 2" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+2'"><h3>Integrante 2</h3><p>Equipo de desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/gaby.jpeg" alt="Foto del integrante 3" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+3'"><h3>Integrante 3</h3><p>Equipo de desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/kathy.jpeg" alt="Foto del integrante 4" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+4'"><h3>Integrante 4</h3><p>Equipo de desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/rosita.jpeg" alt="Foto del integrante 5" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+5'"><h3>Integrante 5</h3><p>Equipo de desarrollo</p></article>
+    </div>
+  </section>
 
   <footer class="footer">
     <p>WWW.SEMITA.SV | Sistema de control IoT</p>
@@ -517,7 +541,7 @@
 
     obtenerDatos();
 
-    // Actualización automática cada 2 segundos
+    
     setInterval(obtenerDatos, 2000);
   </script>
 
