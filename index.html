@@ -1,16 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SEMlTA.SV | Control IoT Real Madrid</title>
+  <title>SEMlTA.SV | Control Bluetooth Real Madrid</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
   <style>
-
 /* Reino Merengue: estilo medieval */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=MedievalSharp&display=swap');
 :root {--azul:#192c50;--azul-oscuro:#101522;--dorado:#cba75b;--fondo:#171b23;}
@@ -23,12 +21,12 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;background:url('https:/
 .header h1,.panel-titulo,.seccion,.equipo h2{font-family:Cinzel,Georgia,serif;letter-spacing:1px}
 .header h1{font-weight:900;font-size:clamp(25px,5vw,44px);color:#f6df9c;text-shadow:0 3px 5px #000}
 .header p{color:#e4d3b1;margin:10px 0 0;letter-spacing:2px}
-.escudo{width:110px;height:135px;object-fit:contain;margin-bottom:12px;filter:drop-shadow(0 5px 12px #000)}
 .panel{max-width:680px;margin:-45px auto 48px;padding:30px;background:linear-gradient(135deg,#2c3039f5,#151a25f8);border:3px double var(--dorado);border-radius:8px;box-shadow:0 20px 55px #000b, inset 0 0 0 5px #ffffff08;position:relative}
 .panel::before,.panel::after{content:'✥';position:absolute;top:7px;color:var(--dorado);font-size:24px}.panel::before{left:12px}.panel::after{right:12px}
 .panel-titulo{text-align:center;color:#f5d68e;font-size:24px;font-weight:800;margin:10px 0 24px}
-.conexion{background:#18372c;border:1px solid #73a88b;color:#a8e6b9;text-align:center;padding:13px;margin:16px 0 20px;border-radius:4px;font-weight:bold}
-.conexion.error{background:#492329;color:#ffb4b4;border-color:#a95e62}
+.conexion{background:#492329;border:1px solid #a95e62;color:#ffb4b4;text-align:center;padding:13px;margin:16px 0 20px;border-radius:4px;font-weight:bold;cursor:pointer;transition:filter 0.2s}
+.conexion.conectado{background:#18372c;border-color:#73a88b;color:#a8e6b9}
+.conexion:hover{filter:brightness(1.15)}
 .distancia-card{background:linear-gradient(140deg,#101a2c,#27334b);border:2px solid #a8894c;text-align:center;padding:28px 15px;margin-bottom:20px;box-shadow:inset 0 0 35px #0007}
 .distancia-card h5{font-family:Cinzel,serif;color:#e5d3ab;font-size:16px;letter-spacing:1px}
 .distancia{font-family:Cinzel,serif;font-size:clamp(3rem,10vw,4.5rem);font-weight:900;color:#f6d68a;text-shadow:0 2px 10px #000}.distancia small{font-size:1.2rem;color:#fff}
@@ -46,45 +44,27 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;background:url('https:/
 @media(max-width:750px){.equipo-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.panel{margin:-45px 12px 30px;padding:22px 15px}.header::before{left:3%}.header::after{right:3%}}
 @media(max-width:450px){.equipo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.header::before,.header::after{font-size:23px}}
-
-/* Versión clara: castillo medieval y escudo al pie */
-:root{--azul:#526b87;--azul-oscuro:#263c51;--dorado:#b68b46;--fondo:#f5efe2}
-body{color:#304257;background:#e5e9e0;font-family:Georgia,serif}
-body::before{background:linear-gradient(180deg,#f6f0e3a8,#f9f5eb91);opacity:1;z-index:-1}
-body::after{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAwIDEwMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIHNsaWNlIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InNreSIgeDI9IjAiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjYTlkNmViIi8+PHN0b3Agb2Zmc2V0PSIuNjUiIHN0b3AtY29sb3I9IiNmNGRmYjciLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNiM2M2YTEiLz48L2xpbmVhckdyYWRpZW50PjxwYXR0ZXJuIGlkPSJzdG9uZSIgd2lkdGg9IjgwIiBoZWlnaHQ9IjQyIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMCAwSDgwTTAgMjFIODBNNDAgMFYyMU0wIDIxVjQyIiBmaWxsPSJub25lIiBzdHJva2U9IiM2Zjc1NmMiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iLjI4Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSIxMDAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSIxMjYwIiBjeT0iMTc1IiByPSI5NSIgZmlsbD0iI2ZmZjVkMSIgb3BhY2l0eT0iLjc1Ii8+PHBhdGggZD0iTTAgNjUwUTI1MCA0MTAgNTAwIDYyMFQxMDUwIDU4MFQxNjAwIDU5MFYxMDAwSDAiIGZpbGw9IiM5MWE5OWEiLz48cGF0aCBkPSJNMCA3NjBRMzIwIDU3MCA2MDAgNzM1VDEyMDAgNzEwVDE2MDAgNzAwVjEwMDBIMCIgZmlsbD0iIzcyOGQ3YyIvPjxnIGZpbGw9IiNiM2E2OGQiIHN0cm9rZT0iIzY5Njg1ZSIgc3Ryb2tlLXdpZHRoPSI5Ij48cmVjdCB4PSIzNzUiIHk9IjQwMCIgd2lkdGg9Ijg1MCIgaGVpZ2h0PSI0ODAiLz48cmVjdCB4PSIyNjUiIHk9IjMwMCIgd2lkdGg9IjIzMCIgaGVpZ2h0PSI1ODAiLz48cmVjdCB4PSIxMTA1IiB5PSIzMDAiIHdpZHRoPSIyMzAiIGhlaWdodD0iNTgwIi8+PHJlY3QgeD0iNjM1IiB5PSIyMzUiIHdpZHRoPSIzMzAiIGhlaWdodD0iNjQ1Ii8+PC9nPjxnIGZpbGw9IiM4ZDhhN2EiPjxwYXRoIGQ9Ik0yNTAgMzAwdi02NWg1MnY2NWg0NnYtNjVoNTN2NjVoNDh2LTY1aDUydjY1aDEwdjQ4SDI1MHpNMTA5MCAzMDB2LTY1aDUydjY1aDQ2di02NWg1M3Y2NWg0OHYtNjVoNTJ2NjVoMTB2NDhoLTI2MXpNNjE1IDIzNXYtNjhoNTR2NjhoNjB2LTY4aDU0djY4aDYwdi02OGg1NHY2OGg4NXY0Nkg2MTV6TTM2NSA0MDB2LTUwaDY1djUwaDY1di01MGg2NXY1MGg2NXYtNTBoNjV2NTBoNjV2LTUwaDY1djUwaDY1di01MGg2NXY1MGg2NXYtNTBoNjV2NTBoNjV2LTUwaDY1djUwaDY1di01MGg2NXY1MGgzNXY0NEgzNjV6Ii8+PC9nPjxnIGZpbGw9InVybCgjc3RvbmUpIj48cmVjdCB4PSIyNjUiIHk9IjMwMCIgd2lkdGg9IjIzMCIgaGVpZ2h0PSI1ODAiLz48cmVjdCB4PSIxMTA1IiB5PSIzMDAiIHdpZHRoPSIyMzAiIGhlaWdodD0iNTgwIi8+PHJlY3QgeD0iNjM1IiB5PSIyMzUiIHdpZHRoPSIzMzAiIGhlaWdodD0iNjQ1Ii8+PHJlY3QgeD0iMzc1IiB5PSI0MDAiIHdpZHRoPSI4NTAiIGhlaWdodD0iNDgwIi8+PC9nPjxnIGZpbGw9IiMzOTRhNGQiPjxwYXRoIGQ9Ik0zNDUgNDYwYTM1IDM1IDAgMCAxIDcwIDB2MTAwaC03MHpNMTE4NSA0NjBhMzUgMzUgMCAwIDEgNzAgMHYxMDBoLTcwek03NDAgMzU1YTYwIDYwIDAgMCAxIDEyMCAwdjEzNUg3NDB6TTcwMCA4ODBWNzIwYTEwMCAxMDAgMCAwIDEgMjAwIDB2MTYweiIvPjwvZz48cGF0aCBkPSJNMCA4ODBRMzAwIDgyMCA2MDAgODg1VDE2MDAgODU1VjEwMDBIMCIgZmlsbD0iIzYwN2U2NSIgb3BhY2l0eT0iLjg1Ii8+PC9zdmc+");background-size:cover;background-position:center center;opacity:1;z-index:-2}
-.header{background:linear-gradient(180deg,#f7f1e9ed,#e5dcc6df);border-bottom:5px ridge #b99351;box-shadow:0 8px 24px #4b4c3b30;padding:34px 16px 80px}
-.header h1{color:#65512f;text-shadow:none}.header p{color:#665d4e}
-.panel{background:linear-gradient(140deg,#fffaf1f5,#f2e9d9f5);box-shadow:0 18px 50px #343b3850;border-color:#bd9a62}
-.panel-titulo,.seccion,.equipo h2{color:#796034}
-.conexion{background:#e3f1e3;color:#326c49;border-color:#8cb69a}.conexion.error{background:#fae4e2;color:#9b3434}
-.distancia-card{background:linear-gradient(140deg,#e5edf1,#d2e1e7);border-color:#c5a26c;color:#30465c;box-shadow:none}
-.distancia-card h5{color:#4e6270}.distancia{color:#946a2d;text-shadow:none}.distancia small{color:#30465c}
-.barra{background:#f8f4ec}.estado-card{background:#f6f3e9;border-color:#cfba91}.estado-card i{color:#94713b}.estado-card p{color:#6c716f}.estado-card strong{color:#30465c}
-.btn-modo{background:#fff9ee;color:#5e553f;border-color:#bba16f}.btn-modo.activo{background:linear-gradient(120deg,#e2c991,#f6e7c3);color:#463a27}
-.btn-motor{background:linear-gradient(140deg,#6d8ba5,#456987);color:#fff}.btn-motor.detener{background:linear-gradient(140deg,#cb7371,#a6474e)}
-.integrante{background:#fff9f0f2;border-color:#c7a56e;box-shadow:0 8px 22px #3c413633}.integrante h3{color:#5b4b36}.integrante p{color:#77716a}
-.footer{background:#f7f0e5df;color:#66563e;padding:24px 15px 30px;border-top:3px solid #c3a16c}.footer .escudo{display:block;margin:0 auto 12px;width:100px;height:120px}
-</style>
+  </style>
 </head>
 
 <body>
 
   <header class="header">
-
     <h1>WWW.SEMITA.SV</h1>
-    <p>⚔️ Fortaleza del Control IoT ⚔️</p>
+    <p>⚔️ Fortaleza del Control Bluetooth IoT ⚔️</p>
   </header>
 
   <main class="panel">
 
     <h3 class="panel-titulo">
       <i class="fa-solid fa-microchip"></i>
-      SALA DE MANDO REAL
+      SALA DE MANDO REAL (BLUETOOTH)
     </h3>
 
-    <div id="conexion" class="conexion">
-      <i class="fa-solid fa-wifi"></i>
-      <span id="txtConexion">Verificando conexión...</span>
+    <!-- Botón interactivo para conectar por Bluetooth -->
+    <div id="conexion" class="conexion" onclick="conectarBluetooth()">
+      <i class="fa-brands fa-bluetooth-b"></i>
+      <span id="txtConexion">Click aquí para conectar con Arduino (Bluetooth)</span>
     </div>
 
     <div class="distancia-card">
@@ -103,7 +83,7 @@ body::after{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0
       </div>
 
       <small id="txtSensor" class="d-block mt-3">
-        Esperando lectura del sensor
+        Esperando conexión Bluetooth
       </small>
     </div>
 
@@ -132,16 +112,14 @@ body::after{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0
 
     <div class="row g-2">
       <div class="col-6">
-        <button id="btnAuto" class="btn-modo activo"
-          onclick="cambiarModo('AUTOMATICO')">
+        <button id="btnAuto" class="btn-modo activo" onclick="cambiarModo('AUTOMATICO')">
           <i class="fa-solid fa-robot"></i>
           Automático
         </button>
       </div>
 
       <div class="col-6">
-        <button id="btnManual" class="btn-modo"
-          onclick="cambiarModo('MANUAL')">
+        <button id="btnManual" class="btn-modo" onclick="cambiarModo('MANUAL')">
           <i class="fa-solid fa-hand"></i>
           Manual
         </button>
@@ -155,24 +133,21 @@ body::after{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0
 
     <div class="row g-2">
       <div class="col-6">
-        <button class="btn-motor izquierda"
-          onclick="enviarComandoMotor('IZQUIERDA')">
+        <button class="btn-motor izquierda" onclick="enviarComandoMotor('IZQUIERDA')">
           <i class="fa-solid fa-arrow-rotate-left"></i>
           IZQUIERDA
         </button>
       </div>
 
       <div class="col-6">
-        <button class="btn-motor derecha"
-          onclick="enviarComandoMotor('DERECHA')">
+        <button class="btn-motor derecha" onclick="enviarComandoMotor('DERECHA')">
           <i class="fa-solid fa-arrow-rotate-right"></i>
           DERECHA
         </button>
       </div>
 
       <div class="col-12">
-        <button class="btn-motor detener"
-          onclick="enviarComandoMotor('DETENER')">
+        <button class="btn-motor detener" onclick="enviarComandoMotor('DETENER')">
           <i class="fa-solid fa-stop"></i>
           DETENER MOTOR
         </button>
@@ -183,197 +158,158 @@ body::after{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0
 
   </main>
 
-
-  
   <section class="equipo" aria-labelledby="titulo-equipo">
     <h2 id="titulo-equipo"><i class="fa-solid fa-users"></i> Caballeros de la orden</h2>
     <div class="equipo-grid">
-      <article class="integrante"><img class="foto-integrante" src="fotos/cami.jpeg" alt="Foto del integrante 1" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+1'"><h3>Integrante 1</h3><p>Equipo de desarrollo</p></article>
-      <article class="integrante"><img class="foto-integrante" src="fotos/dany.jpeg" alt="Foto del integrante 2" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+2'"><h3>Integrante 2</h3><p>Equipo de desarrollo</p></article>
-      <article class="integrante"><img class="foto-integrante" src="fotos/gaby.jpeg" alt="Foto del integrante 3" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+3'"><h3>Integrante 3</h3><p>Equipo de desarrollo</p></article>
-      <article class="integrante"><img class="foto-integrante" src="fotos/kathy.jpeg" alt="Foto del integrante 4" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+4'"><h3>Integrante 4</h3><p>Equipo de desarrollo</p></article>
-      <article class="integrante"><img class="foto-integrante" src="fotos/rosita.jpeg" alt="Foto del integrante 5" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+5'"><h3>Integrante 5</h3><p>Equipo de desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/cami.jpeg" alt="Foto 1" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+1'"><h3>Integrante 1</h3><p>Desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/dany.jpeg" alt="Foto 2" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+2'"><h3>Integrante 2</h3><p>Desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/gaby.jpeg" alt="Foto 3" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+3'"><h3>Integrante 3</h3><p>Desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/kathy.jpeg" alt="Foto 4" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+4'"><h3>Integrante 4</h3><p>Desarrollo</p></article>
+      <article class="integrante"><img class="foto-integrante" src="fotos/rosita.jpeg" alt="Foto 5" onerror="this.onerror=null;this.src='https://placehold.co/200x200/edf1f8/142d60?text=Foto+5'"><h3>Integrante 5</h3><p>Desarrollo</p></article>
     </div>
   </section>
 
   <footer class="footer">
-    <img
-      class="escudo"
-      src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg"
-      alt="Escudo Real Madrid"
-    >
-
-    <p>WWW.SEMITA.SV | Sistema de control IoT</p>
+    <img class="escudo" src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" alt="Escudo Real Madrid">
+    <p>WWW.SEMITA.SV | Sistema de control Bluetooth IoT</p>
     <p>El reino merengue · Real Madrid CF</p>
   </footer>
 
   <script>
-    const apiUrl =
-      "https://6ad813a395e98f36aef2ea16.mockapi.io/sistema/1";
+    // Variables globales para Bluetooth (Web Bluetooth API)
+    let bluetoothDevice = null;
+    let bluetoothCharacteristic = null;
 
-    let peticionEnCurso = false;
-    let ultimaEscritura = 0;
+    // UUIDs del servicio BLE configurados en el código de Arduino
+    const SERVICE_UUID = "19b10000-e8f2-537e-4f6c-d104768a1214";
+    const CHARACTERISTIC_UUID = "19b10001-e8f2-537e-4f6c-d104768a1214";
 
     const $ = id => document.getElementById(id);
 
     function mostrarMensaje(texto, error = false) {
       $("mensaje").textContent = texto;
-      $("mensaje").style.color =
-        error ? "#c62828" : "#16824b";
+      $("mensaje").style.color = error ? "#ffb4b4" : "#a8e6b9";
     }
 
-    function actualizarInterfaz(data) {
-      const distancia = Number(data.distancia);
-
-      if (
-        data.distancia !== undefined &&
-        data.distancia !== null &&
-        data.distancia !== "" &&
-        Number.isFinite(distancia)
-      ) {
-        $("valDistancia").textContent = distancia;
-
-        // Escala visual de 0 a 100 cm
-        const porcentaje = Math.min(
-          100,
-          Math.max(0, distancia)
-        );
-
-        $("barraProgreso").style.width = porcentaje + "%";
-
-        if (distancia < 10) {
-          $("barraProgreso").style.background = "#ff5252";
-          $("txtSensor").textContent = "Objeto muy cercano";
-        } else if (distancia < 30) {
-          $("barraProgreso").style.background = "#f0c85a";
-          $("txtSensor").textContent = "Objeto cercano";
-        } else {
-          $("barraProgreso").style.background = "#29d17d";
-          $("txtSensor").textContent = "Distancia segura";
-        }
-      }
-
-      if (data.motor !== undefined) {
-        $("txtMotor").textContent = data.motor;
-      }
-
-      if (data.modo !== undefined) {
-        $("txtModo").textContent = data.modo;
-
-        const manual = data.modo === "MANUAL";
-
-        $("btnManual").classList.toggle("activo", manual);
-        $("btnAuto").classList.toggle("activo", !manual);
-      }
-    }
-
-    function actualizarConexion(conectado) {
-      const conexion = $("conexion");
-
-      conexion.classList.toggle("error", !conectado);
-
-      $("txtConexion").textContent = conectado
-        ? "Conectado a MockAPI"
-        : "Sin conexión con MockAPI";
-    }
-
-    async function solicitarAPI(opciones) {
-      const respuesta = await fetch(apiUrl, {
-        ...opciones,
-        cache: "no-store"
-      });
-
-      if (!respuesta.ok) {
-        throw new Error("Error HTTP: " + respuesta.status);
-      }
-
-      return respuesta.json();
-    }
-
-    async function obtenerDatos() {
-      if (peticionEnCurso) return;
-
-      // Evita que una lectura antigua sobrescriba
-      // inmediatamente un comando recién enviado.
-      if (Date.now() - ultimaEscritura < 1500) return;
-
-      peticionEnCurso = true;
-
-      try {
-        const datos = await solicitarAPI();
-        actualizarInterfaz(datos);
-        actualizarConexion(true);
-      } catch (error) {
-        actualizarConexion(false);
-        console.error("Error al leer MockAPI:", error);
-      } finally {
-        peticionEnCurso = false;
-      }
-    }
-
-    async function enviarActualizacion(datos) {
-      if (peticionEnCurso) {
-        mostrarMensaje(
-          "Espera a que termine la operación actual.",
-          true
-        );
+    // Función para iniciar la conexión Bluetooth desde el navegador
+    async function conectarBluetooth() {
+      if (!navigator.bluetooth) {
+        alert("Tu navegador no soporta Web Bluetooth. Usa Google Chrome o Edge.");
         return;
       }
 
-      peticionEnCurso = true;
-
-      const botones = document.querySelectorAll(
-        ".btn-modo, .btn-motor"
-      );
-
-      botones.forEach(boton => boton.disabled = true);
-
       try {
-        const resultado = await solicitarAPI({
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(datos)
+        $("txtConexion").textContent = "Buscando dispositivo...";
+        
+        // Solicitar dispositivo con el nombre configurado en Arduino
+        bluetoothDevice = await navigator.bluetooth.requestDevice({
+          filters: [{ name: 'ArduinoR4_Motor' }],
+          optionalServices: [SERVICE_UUID]
         });
 
-        ultimaEscritura = Date.now();
-        actualizarInterfaz(resultado);
-        actualizarConexion(true);
-        mostrarMensaje("Comando enviado correctamente");
+        bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
+
+        $("txtConexion").textContent = "Conectando al servidor GATT...";
+        const server = await bluetoothDevice.gatt.connect();
+
+        $("txtConexion").textContent = "Buscando servicios...";
+        const service = await server.getPrimaryService(SERVICE_UUID);
+
+        $("txtConexion").textContent = "Estableciendo canales...";
+        bluetoothCharacteristic = await service.getCharacteristic(CHARACTERISTIC_UUID);
+
+        // Habilitar notificaciones para recibir la distancia enviada por el Arduino
+        await bluetoothCharacteristic.startNotifications();
+        bluetoothCharacteristic.addEventListener('characteristicvaluechanged', manejarDatosEntrantes);
+
+        // Cambiar diseño a conectado
+        $("conexion").classList.add("conectado");
+        $("txtConexion").textContent = "Conectado por Bluetooth a ArduinoR4_Motor";
+        mostrarMensaje("¡Conexión Bluetooth establecida con éxito!");
+
       } catch (error) {
-        actualizarConexion(false);
-        mostrarMensaje(
-          "No se pudo enviar el comando: " + error.message,
-          true
-        );
-        console.error(error);
-      } finally {
-        peticionEnCurso = false;
-        botones.forEach(boton => boton.disabled = false);
+        console.error("Error de conexión:", error);
+        onDisconnected();
+        mostrarMensaje("Error al conectar: " + error.message, true);
+      }
+    }
+
+    function onDisconnected() {
+      $("conexion").classList.remove("conectado");
+      $("txtConexion").textContent = "Sin conexión Bluetooth. Click para reconectar.";
+      $("txtSensor").textContent = "Desconectado";
+      bluetoothDevice = null;
+      bluetoothCharacteristic = null;
+    }
+
+    // Recibir datos en tiempo real enviados por el Arduino
+    function manejarDatosEntrantes(event) {
+      const value = event.target.value;
+      const decoder = new TextDecoder('utf-8');
+      const mensajeRecibido = decoder.decode(value);
+      
+      // El formato esperado del Arduino es "DIST:XX\n"
+      if (mensajeRecibido.includes("DIST:")) {
+        const distanciaStr = mensajeRecibido.replace("DIST:", "").trim();
+        const distancia = Number(distanciaStr);
+
+        if (!isNaN(distancia)) {
+          $("valDistancia").textContent = distancia;
+
+          const porcentaje = Math.min(100, Math.max(0, distancia));
+          $("barraProgreso").style.width = porcentaje + "%";
+
+          if (distancia < 10) {
+            $("barraProgreso").style.background = "#ff5252";
+            $("txtSensor").textContent = "Objeto muy cercano";
+          } else if (distancia < 30) {
+            $("barraProgreso").style.background = "#f0c85a";
+            $("txtSensor").textContent = "Objeto cercano";
+          } else {
+            $("barraProgreso").style.background = "#29d17d";
+            $("txtSensor").textContent = "Distancia segura";
+          }
+        }
+      }
+    }
+
+    // Enviar comandos manuales al Arduino vía Bluetooth
+    async function enviarComandoBluetooth(comandoTexto) {
+      if (!bluetoothCharacteristic) {
+        mostrarMensaje("Primero debes conectar el Bluetooth haciendo clic arriba.", true);
+        return;
+      }
+
+      try {
+        const encoder = new TextEncoder();
+        await bluetoothCharacteristic.writeValue(encoder.encode(comandoTexto + "\n"));
+        mostrarMensaje("Comando enviado: " + comandoTexto);
+      } catch (error) {
+        console.error("Error al enviar comando:", error);
+        mostrarMensaje("Error al enviar comando: " + error.message, true);
       }
     }
 
     async function cambiarModo(nuevoModo) {
-      await enviarActualizacion({
-        modo: nuevoModo,
-        ...(nuevoModo === "AUTOMATICO"
-          ? { motor: "DETENER" }
-          : {})
-      });
+      $("txtModo").textContent = nuevoModo;
+      const manual = (nuevoModo === "MANUAL");
+      $("btnManual").classList.toggle("activo", manual);
+      $("btnAuto").classList.toggle("activo", !manual);
+
+      if (nuevoModo === "AUTOMATICO") {
+        $("txtMotor").textContent = "DETENIDO";
+        await enviarComandoBluetooth("DETENIDO");
+      } else {
+        await enviarComandoBluetooth("MANUAL");
+      }
     }
 
     async function enviarComandoMotor(accion) {
-      await enviarActualizacion({
-        motor: accion,
-        modo: "MANUAL"
-      });
+      $("txtMotor").textContent = accion;
+      // Forzar modo manual al enviar orden de motor
+      cambiarModo("MANUAL");
+      await enviarComandoBluetooth(accion);
     }
-
-    obtenerDatos();
-
-    
-    setInterval(obtenerDatos, 2000);
   </script>
 
 </body>
